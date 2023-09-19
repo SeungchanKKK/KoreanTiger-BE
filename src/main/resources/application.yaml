@@ -1,1 +1,28 @@
+springdoc:
+  packages-to-scan: com.geupjo.koreantiger.controller
+  api-docs:
+    path: /docs
+    groups.enabled: false
+  swagger-ui:
+    path: /swagger/ui
+    display-request-duration: true
+    display-operation-id: true
+    syntax-highlight.theme: monokai
+    doc-expansion: none
 
+---
+
+# local config
+spring.config.activate.on-profile: local
+
+---
+# dev config
+spring.config.activate.on-profile: dev
+
+---
+# prod config
+spring.config.activate.on-profile: prod
+
+springdoc:
+  swagger-ui:
+    enabled: false
