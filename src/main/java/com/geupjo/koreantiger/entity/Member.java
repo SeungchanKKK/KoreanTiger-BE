@@ -1,4 +1,9 @@
 package com.geupjo.koreantiger.entity;
 
-public class Member {
+import com.geupjo.koreantiger.common.jpa.BaseEntity;
+import jakarta.persistence.Entity;
+
+@Entity
+public class Member extends BaseEntity {
+
 }
