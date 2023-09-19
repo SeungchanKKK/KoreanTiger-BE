@@ -15,7 +15,7 @@ import java.util.List;
 public class OpenApiConfig {
     private static final String PACKAGE_PATH = "com.geupjo.koreantiger.controller";
     private static final String HELLO_API_PATH_PREFIX = "/hello/**";
-    private static final String TIGER_API_PATH_PREFIX = "/v1/**";
+    private static final String TIGER_API_V1_PATH_PREFIX = "/v1/**";
 
     @Bean
     public OpenAPI openAPI() {
@@ -27,9 +27,9 @@ public class OpenApiConfig {
     @Bean
     public GroupedOpenApi tigerAPI() {
         return GroupedOpenApi.builder()
-                .group("Korean Tiger API")
+                .group("Korean Tiger API v1")
                 .packagesToScan(PACKAGE_PATH)
-                .pathsToMatch(TIGER_API_PATH_PREFIX)
+                .pathsToMatch(TIGER_API_V1_PATH_PREFIX)
                 .build();
     }
 
@@ -39,7 +39,7 @@ public class OpenApiConfig {
                 .group("hello API")
                 .packagesToScan(PACKAGE_PATH)
                 .pathsToMatch(HELLO_API_PATH_PREFIX)
-                .pathsToExclude(TIGER_API_PATH_PREFIX)
+                .pathsToExclude(TIGER_API_V1_PATH_PREFIX)
                 .build();
     }
 
