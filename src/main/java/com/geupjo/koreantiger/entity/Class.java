@@ -11,5 +11,5 @@ public class Class {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String inst
+    private String institution;
 }
