@@ -12,7 +12,7 @@ public class StudentLmsFacade {
 
     private final StudentLmsService studentLmsService;
     public ApiResponse getStudentExpProfile(Long studentId){
-        StudentExpProfileDto studentExpProfileDto = new StudentExpProfileDto();
+        StudentExpProfileDto studentExpProfileDto = studentLmsService.getStudentProfile(studentId);
         return ApiResponse.success(studentExpProfileDto);
     }
 }
