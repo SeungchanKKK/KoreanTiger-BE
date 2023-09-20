@@ -1,8 +1,10 @@
 package com.geupjo.koreantiger.dto.response;
 
-public class StudentRankingDto {
-    private int ranking;
-    private String name;
-    private int level;
-    private double progress;
-}
+import com.geupjo.koreantiger.enums.Level;
+
+public record StudentRankingDto(
+         int ranking,
+         String name,
+         Level level,
+         double progress
+) { }
