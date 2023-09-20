@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Tiger API v1", description = "Tiger v1 Controller")
-@RequestMapping("/v1")
+@RequestMapping("v1")
 @RestController
 public class TigerHelloController {
     @Operation(summary = "Swagger tiger API hello")
