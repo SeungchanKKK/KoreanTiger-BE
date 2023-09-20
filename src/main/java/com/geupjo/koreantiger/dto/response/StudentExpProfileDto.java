@@ -1,19 +1,16 @@
 package com.geupjo.koreantiger.dto.response;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import com.geupjo.koreantiger.enums.StudentProfileTitle;
 
 import java.util.ArrayList;
+public record StudentExpProfileDto (
+        String name,
+        int experience,
+        int connection,
+        StudentProfileTitle title,
+        ArrayList<StudentRankingDto>inSchoolRankingBoard,
+        ArrayList<StudentRankingDto>totalRankingBoard){
 
-@Builder
-@Getter
-@RequiredArgsConstructor
-public class StudentExpProfileDto {
-    private String name;
-    private int experience;
-    private int connection;
-    private String title;
-    ArrayList<StudentRankingDto>inSchoolRankingBoard;
-    ArrayList<StudentRankingDto>totalRankingBoard;
 }
+
+
