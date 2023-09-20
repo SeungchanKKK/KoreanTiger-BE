@@ -9,8 +9,7 @@ public record StudentExpProfileDto (
         int connection,
         StudentProfileTitle title,
         ArrayList<StudentRankingDto>inSchoolRankingBoard,
-        ArrayList<StudentRankingDto>totalRankingBoard){
-
-}
+        ArrayList<StudentRankingDto>totalRankingBoard)
+{ }
 
 
