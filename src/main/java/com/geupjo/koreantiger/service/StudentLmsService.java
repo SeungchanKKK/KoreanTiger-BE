@@ -9,7 +9,6 @@ import com.geupjo.koreantiger.entity.Class;
 import com.geupjo.koreantiger.entity.EducationHistory;
 import com.geupjo.koreantiger.entity.EducationProfile;
 import com.geupjo.koreantiger.entity.Member;
-import com.geupjo.koreantiger.enums.Authority;
 import com.geupjo.koreantiger.repository.ClassRepository;
 import com.geupjo.koreantiger.repository.EducationHistoryRepository;
 import com.geupjo.koreantiger.repository.EducationProfileRepository;
