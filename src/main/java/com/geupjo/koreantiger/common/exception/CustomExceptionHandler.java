@@ -1,7 +1,6 @@
 package com.geupjo.koreantiger.common.exception;
 
 import com.geupjo.koreantiger.common.ApiResponse;
-import com.geupjo.koreantiger.dto.response.ResponseDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
