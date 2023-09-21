@@ -9,7 +9,6 @@ import com.geupjo.koreantiger.entity.Class;
 import com.geupjo.koreantiger.entity.EducationHistory;
 import com.geupjo.koreantiger.entity.EducationProfile;
 import com.geupjo.koreantiger.entity.Member;
-import com.geupjo.koreantiger.enums.Authority;
 import com.geupjo.koreantiger.repository.ClassRepository;
 import com.geupjo.koreantiger.repository.EducationHistoryRepository;
 import com.geupjo.koreantiger.repository.EducationProfileRepository;
@@ -40,8 +39,8 @@ public class StudentLmsService {
                 .orElseThrow(()-> new CustomException(ErrorCode.NOTMATCH_USER_EXCEPTION));
         long currentTime = System.currentTimeMillis();
         long lastConnection = lastHistory.getLearningStop();
-        long duration = currentTime-lastConnection/(1000 * 60 * 60 * 24);
-        int connection = (int)duration;
+        long duration = currentTime - lastConnection / (1000 * 60 * 60 * 24);
+        int connection = (int) duration;
         System.out.println(duration);
 
         return new StudentProfileDto(
@@ -53,22 +52,22 @@ public class StudentLmsService {
 
     public RankingBoardDto getRankingBoard(Long studentId) {
         //학교랭킹 50위 레벨 및 경험치순으로 정렬
-        Class studentClass = classRepository.findByStudentId(studentId).orElseThrow(()-> new CustomException(ErrorCode.NOTMATCH_USER_EXCEPTION));
-        List<Class>classes = classRepository.findAllByClassId(studentClass.getClassId());
+        Class studentClass = classRepository.findByStudentId(studentId).orElseThrow(() -> new CustomException(ErrorCode.NOTMATCH_USER_EXCEPTION));
+        List<Class> classes = classRepository.findAllByClassId(studentClass.getClassId());
         List<Long> ClassmemberIds = classes
                 .stream()
                 .filter(Objects::nonNull)
                 .map(Class::getStudentId)
                 .toList();
-        List<EducationProfile>inSchoolProfiles= educationProfileRepository.findTop50ByMemberIdInOrderByLevelDescExperienceDesc(ClassmemberIds);
-        ArrayList<StudentRankingDto>inSchoolRankingBoard = new ArrayList<>();
+        List<EducationProfile> inSchoolProfiles = educationProfileRepository.findTop50ByMemberIdInOrderByLevelDescExperienceDesc(ClassmemberIds);
+        ArrayList<StudentRankingDto> inSchoolRankingBoard = new ArrayList<>();
         getRanking50(inSchoolProfiles, inSchoolRankingBoard);
 
         //전체랭킹 50위 레벨 및 경험치순으로 정렬
-        List<EducationProfile>educationProfiles= educationProfileRepository.findTop50ByOrderByLevelDescExperienceDesc();
-        ArrayList<StudentRankingDto>totalRankingBoard = new ArrayList<>();
+        List<EducationProfile> educationProfiles = educationProfileRepository.findTop50ByOrderByLevelDescExperienceDesc();
+        ArrayList<StudentRankingDto> totalRankingBoard = new ArrayList<>();
         getRanking50(educationProfiles, totalRankingBoard);
-        return new RankingBoardDto(inSchoolRankingBoard,totalRankingBoard);
+        return new RankingBoardDto(inSchoolRankingBoard, totalRankingBoard);
     }
 
     private void getRanking50(List<EducationProfile> educationProfiles, ArrayList<StudentRankingDto> RankingBoard) {

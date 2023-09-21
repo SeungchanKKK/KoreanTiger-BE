@@ -1,6 +1,8 @@
 package com.geupjo.koreantiger.controller.student;
 
 import com.geupjo.koreantiger.common.ApiResponse;
+import com.geupjo.koreantiger.dto.response.RankingBoardDto;
+import com.geupjo.koreantiger.dto.response.StudentProfileDto;
 import com.geupjo.koreantiger.service.facade.StudentLmsFacade;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -21,13 +23,13 @@ public class StudentLmsController {
 
     @Operation(summary = "학생프로필 api 입니다")
     @GetMapping("/experience")
-    public ApiResponse studentProfileResponse(@Parameter(description = "학생Id") @RequestParam(value = "studentID", required = false) Long studentId) {
+    public ApiResponse<StudentProfileDto> studentProfileResponse(@Parameter(description = "학생Id") @RequestParam(value = "studentID", required = false) Long studentId) {
         return studentLmsFacade.getStudentProfile(1L);
     }
 
     @Operation(summary = "랭킹보드 api 입니다")
     @GetMapping("/ranking")
-    public ApiResponse studentRankingResponse(@Parameter(description = "학생Id") @RequestParam(value = "studentID", required = false) Long studentId) {
+    public ApiResponse<RankingBoardDto> studentRankingResponse(@Parameter(description = "학생Id") @RequestParam(value = "studentID", required = false) Long studentId) {
         return studentLmsFacade.getRankingBoard(studentId);
     }
 }

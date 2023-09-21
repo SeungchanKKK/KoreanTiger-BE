@@ -12,13 +12,13 @@ import org.springframework.stereotype.Component;
 public class StudentLmsFacade {
 
     private final StudentLmsService studentLmsService;
-    public ApiResponse getStudentProfile(Long studentId){
+    public ApiResponse<StudentProfileDto> getStudentProfile(Long studentId) {
         StudentProfileDto studentProfileDto = studentLmsService.getStudentProfile(studentId);
         return ApiResponse.success(studentProfileDto);
     }
 
 
-    public ApiResponse getRankingBoard(Long studentId) {
+    public ApiResponse<RankingBoardDto> getRankingBoard(Long studentId) {
         RankingBoardDto rankingBoardDto = studentLmsService.getRankingBoard(studentId);
         return ApiResponse.success(rankingBoardDto);
     }
