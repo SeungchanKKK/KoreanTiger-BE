@@ -33,7 +33,7 @@ public class ApiResponse<T> {
         return new ApiResponse<>(SUCCESS, data);
     }
 
-    public static ApiResponse<?> noContent() {
+    public static ApiResponse<Void> noContent() {
         return new ApiResponse<>(SUCCESS, null);
     }
 
