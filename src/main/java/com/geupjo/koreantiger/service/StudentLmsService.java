@@ -9,7 +9,9 @@ import com.geupjo.koreantiger.entity.Class;
 import com.geupjo.koreantiger.entity.EducationHistory;
 import com.geupjo.koreantiger.entity.EducationProfile;
 import com.geupjo.koreantiger.entity.Member;
+import com.geupjo.koreantiger.enums.Authority;
 import com.geupjo.koreantiger.repository.ClassRepository;
+import com.geupjo.koreantiger.repository.EducationHistoryRepository;
 import com.geupjo.koreantiger.repository.EducationProfileRepository;
 import com.geupjo.koreantiger.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,13 +29,20 @@ public class StudentLmsService {
 
     private final ClassRepository classRepository;
 
+    private final EducationHistoryRepository educationHistoryRepository;
+
 
     public StudentProfileDto getStudentProfile(Long studentId){
-        Member student = memberRepository.findById(studentId).orElseThrow(()-> new CustomException(ErrorCode.NOTMATCH_USER_EXCEPTION));
+       Member student = memberRepository.findById(studentId).orElseThrow(()-> new CustomException(ErrorCode.NOTMATCH_USER_EXCEPTION));
         EducationProfile profile = educationProfileRepository.findByMemberId(student.getId())
                 .orElseThrow(()-> new CustomException(ErrorCode.NOTMATCH_USER_EXCEPTION));
-        Long lastAttend = findFirstBymemberIdAndCreatedAtDescAndAttendanceTrue;
-        int connection = 111;
+        EducationHistory lastHistory = educationHistoryRepository.findFirstByMemberIdAndAttendanceIsFalseOrderByCreatedAt(student.getId())
+                .orElseThrow(()-> new CustomException(ErrorCode.NOTMATCH_USER_EXCEPTION));
+        long currentTime = System.currentTimeMillis();
+        long lastConnection = lastHistory.getLearningStop();
+        long duration = currentTime-lastConnection/(1000 * 60 * 60 * 24);
+        int connection = (int)duration;
+        System.out.println(duration);
 
         return new StudentProfileDto(
                 student.getName(),
@@ -51,7 +60,7 @@ public class StudentLmsService {
                 .filter(Objects::nonNull)
                 .map(Class::getStudentId)
                 .toList();
-        List<EducationProfile>inSchoolProfiles= educationProfileRepository.findTop50ByOrderByLevelDescExperienceDescIn(ClassmemberIds);
+        List<EducationProfile>inSchoolProfiles= educationProfileRepository.findTop50ByMemberIdInOrderByLevelDescExperienceDesc(ClassmemberIds);
         ArrayList<StudentRankingDto>inSchoolRankingBoard = new ArrayList<>();
         getRanking50(inSchoolProfiles, inSchoolRankingBoard);
 

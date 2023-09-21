@@ -8,5 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface EducationHistoryRepository extends JpaRepository<EducationHistory, Long> {
-    Optional<EducationHistory> findFirstBymemberIdAndCreatedAtDescAndAttendanceFalse(Long memberId);
+    Optional<EducationHistory> findFirstByMemberIdAndAttendanceIsFalseOrderByCreatedAt(Long id);
+    //AttendanceFalse
 }

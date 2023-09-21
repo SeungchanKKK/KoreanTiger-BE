@@ -22,11 +22,11 @@ public class StudentLmsController {
     @Operation(summary = "학생프로필 api 입니다")
     @GetMapping("/experience")
     public ApiResponse studentProfileResponse(@Parameter(description = "학생Id") @RequestParam(value = "studentID", required = false) Long studentId) {
-        return studentLmsFacade.getStudentProfile(studentId);
+        return studentLmsFacade.getStudentProfile(1L);
     }
 
     @Operation(summary = "랭킹보드 api 입니다")
-    @GetMapping("/experience")
+    @GetMapping("/ranking")
     public ApiResponse studentRankingResponse(@Parameter(description = "학생Id") @RequestParam(value = "studentID", required = false) Long studentId) {
         return studentLmsFacade.getRankingBoard(studentId);
     }

@@ -21,7 +21,6 @@ public class EducationProfile extends BaseEntity {
     @Min(1)
     @Max(100)
     @Column
-    @Enumerated(EnumType.STRING)
     private int level;
 
     @Column(nullable = false)

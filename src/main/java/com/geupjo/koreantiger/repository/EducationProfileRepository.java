@@ -12,6 +12,6 @@ public interface EducationProfileRepository extends JpaRepository<EducationProfi
     Optional<EducationProfile> findByMemberId(Long memberId);
     List<EducationProfile> findTop50ByOrderByLevelDescExperienceDesc();
 
-    List<EducationProfile> findTop50ByOrderByLevelDescExperienceDescIn(List<Long> memberId);
+    List<EducationProfile> findTop50ByMemberIdInOrderByLevelDescExperienceDesc(List<Long> memberId);
 
 }
