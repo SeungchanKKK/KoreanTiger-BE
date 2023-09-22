@@ -1,7 +1,9 @@
 package com.geupjo.koreantiger.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
+@Getter
 @Entity
 public class Class {
     @Id

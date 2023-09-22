@@ -4,8 +4,6 @@ import com.geupjo.koreantiger.common.jpa.BaseEntity;
 import com.geupjo.koreantiger.enums.StudentProfileTitle;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.Getter;
@@ -21,7 +19,6 @@ public class EducationProfile extends BaseEntity {
     @Min(1)
     @Max(100)
     @Column
-    @Enumerated(EnumType.STRING)
     private int level;
 
     @Column(nullable = false)

@@ -11,10 +11,4 @@ public class CustomExceptionHandler {
     protected ResponseEntity<ApiResponse<?>> handleCustomExecution(CustomException e) {
         return ResponseEntity.badRequest().body(ApiResponse.createError(e.getErrorCode()));
     }
-
-    //존재하지 않는 유저
-    @ExceptionHandler(CustomException.class)
-    public ResponseEntity<ApiResponse<?>> handleNotExistUserException(CustomException e) {
-        return ResponseEntity.badRequest().body(ApiResponse.createError(e.getErrorCode()));
-    }
 }
