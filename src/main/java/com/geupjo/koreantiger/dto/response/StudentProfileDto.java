@@ -18,5 +18,3 @@ public record StudentProfileDto(
         StudentProfileTitle title
 ) {
 }
-
-

@@ -1,5 +1,6 @@
 package com.geupjo.koreantiger.common;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.geupjo.koreantiger.common.exception.ErrorCode;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -22,6 +23,7 @@ public class ApiResponse<T> {
 
     private String status;
     private T data;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String message;
 
     public ApiResponse(String status, T data) {
@@ -33,7 +35,7 @@ public class ApiResponse<T> {
         return new ApiResponse<>(SUCCESS, data);
     }
 
-    public static ApiResponse<?> noContent() {
+    public static ApiResponse<Void> noContent() {
         return new ApiResponse<>(SUCCESS, null);
     }
 

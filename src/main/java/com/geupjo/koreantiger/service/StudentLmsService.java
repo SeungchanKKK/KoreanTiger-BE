@@ -3,19 +3,16 @@ package com.geupjo.koreantiger.service;
 import com.geupjo.koreantiger.common.exception.CustomException;
 import com.geupjo.koreantiger.common.exception.ErrorCode;
 import com.geupjo.koreantiger.dto.response.RankingBoardDto;
+import com.geupjo.koreantiger.dto.response.StudentHistoryResponseDto;
 import com.geupjo.koreantiger.dto.response.StudentProfileDto;
 import com.geupjo.koreantiger.dto.response.StudentRankingDto;
 import com.geupjo.koreantiger.entity.Class;
-import com.geupjo.koreantiger.entity.EducationHistory;
-import com.geupjo.koreantiger.entity.EducationProfile;
-import com.geupjo.koreantiger.entity.Member;
-import com.geupjo.koreantiger.repository.ClassRepository;
-import com.geupjo.koreantiger.repository.EducationHistoryRepository;
-import com.geupjo.koreantiger.repository.EducationProfileRepository;
-import com.geupjo.koreantiger.repository.MemberRepository;
+import com.geupjo.koreantiger.entity.*;
+import com.geupjo.koreantiger.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -25,18 +22,18 @@ import java.util.Objects;
 public class StudentLmsService {
     private final MemberRepository memberRepository;
     private final EducationProfileRepository educationProfileRepository;
-
+    private final EducationHistoryRepository educationHistoryRepository;
+    private final LectureRepository lectureRepository;
     private final ClassRepository classRepository;
 
-    private final EducationHistoryRepository educationHistoryRepository;
-
+    private static final int ONE_YEAR = 1;
 
     public StudentProfileDto getStudentProfile(Long studentId) {
-        Member student = memberRepository.findById(studentId).orElseThrow(() -> new CustomException(ErrorCode.NOTMATCH_USER_EXCEPTION));
+        Member student = memberRepository.findById(studentId).orElseThrow(() -> new CustomException(ErrorCode.NO_MATCH_USER_EXCEPTION));
         EducationProfile profile = educationProfileRepository.findByMemberId(student.getId())
-                .orElseThrow(() -> new CustomException(ErrorCode.NOTMATCH_USER_EXCEPTION));
+                .orElseThrow(() -> new CustomException(ErrorCode.NO_MATCH_USER_EXCEPTION));
         EducationHistory lastHistory = educationHistoryRepository.findFirstByMemberIdAndAttendanceIsFalseOrderByCreatedAt(student.getId())
-                .orElseThrow(() -> new CustomException(ErrorCode.NOTMATCH_USER_EXCEPTION));
+                .orElseThrow(() -> new CustomException(ErrorCode.NO_MATCH_USER_EXCEPTION));
         long currentTime = System.currentTimeMillis();
         long lastConnection = lastHistory.getLearningStop();
         long duration = currentTime - lastConnection / (1000 * 60 * 60 * 24);
@@ -52,7 +49,7 @@ public class StudentLmsService {
 
     public RankingBoardDto getRankingBoard(Long studentId) {
         //학교랭킹 50위 레벨 및 경험치순으로 정렬
-        Class studentClass = classRepository.findByStudentId(studentId).orElseThrow(() -> new CustomException(ErrorCode.NOTMATCH_USER_EXCEPTION));
+        Class studentClass = classRepository.findByStudentId(studentId).orElseThrow(() -> new CustomException(ErrorCode.NO_MATCH_USER_EXCEPTION));
         List<Class> classes = classRepository.findAllByClassId(studentClass.getClassId());
         List<Long> ClassmemberIds = classes
                 .stream()
@@ -90,5 +87,17 @@ public class StudentLmsService {
             RankingBoard.add(dto);
             totalRank++;
         }
+    }
+
+    public StudentHistoryResponseDto getStudentEducationHistories(Member currentStudent) {
+        LocalDateTime today = LocalDateTime.now();
+        LocalDateTime oneYearBeforeToday = today.minusYears(ONE_YEAR);
+
+        List<EducationHistory> histories = educationHistoryRepository
+                .findByMemberIdAndCreatedAtBetween(currentStudent.getId(), oneYearBeforeToday, today);
+        List<Lecture> lectures = lectureRepository
+                .findByMemberIdAndCreatedAtBetween(currentStudent.getId(), oneYearBeforeToday, today);
+
+        return StudentHistoryResponseDto.of(histories, lectures);
     }
 }

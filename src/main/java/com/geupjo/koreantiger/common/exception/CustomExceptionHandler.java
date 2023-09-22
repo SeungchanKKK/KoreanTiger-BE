@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class CustomExceptionHandler {
     @ExceptionHandler(CustomException.class)
-    protected ResponseEntity<ApiResponse> handleCustomExecution(CustomException e) {
+    protected ResponseEntity<ApiResponse<?>> handleCustomExecution(CustomException e) {
         return ResponseEntity.badRequest().body(ApiResponse.createError(e.getErrorCode()));
     }
 }

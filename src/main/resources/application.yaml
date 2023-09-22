@@ -18,18 +18,30 @@ spring:
     activate:
       on-profile: local
   jpa:
+    hibernate:
+      ddl-auto: create
     properties:
       hibernate:
         show_sql: true
         format_sql: true
-
 ---
 # dev config
-spring.config.activate.on-profile: dev
-
+spring:
+  config:
+    activate:
+      on-profile: dev
+  jpa:
+    hibernate:
+      ddl-auto: none
 ---
 # prod config
-spring.config.activate.on-profile: prod
+spring:
+  config:
+    activate:
+      on-profile: prod
+  jpa:
+    hibernate:
+      ddl-auto: none
 
 springdoc:
   swagger-ui:
