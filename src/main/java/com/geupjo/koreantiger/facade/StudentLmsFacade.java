@@ -1,6 +1,7 @@
 package com.geupjo.koreantiger.facade;
 
 import com.geupjo.koreantiger.dto.response.RankingBoardResponseDto;
+import com.geupjo.koreantiger.dto.response.StudentCheckInDto;
 import com.geupjo.koreantiger.dto.response.StudentHistoryResponseDto;
 import com.geupjo.koreantiger.dto.response.StudentProfileResponseDto;
 import com.geupjo.koreantiger.entity.Member;
@@ -26,5 +27,10 @@ public class StudentLmsFacade {
     public StudentHistoryResponseDto getStudentEducationHistories() {
         Member currentStudent = ContextUtils.loadMockStudent();
         return studentLmsService.getStudentEducationHistories(currentStudent);
+    }
+
+    public StudentCheckInDto getStudentCheckIn() {
+        Member currentStudent = ContextUtils.loadMockStudent();
+        return studentLmsService.getStudentCheckIn(currentStudent);
     }
 }

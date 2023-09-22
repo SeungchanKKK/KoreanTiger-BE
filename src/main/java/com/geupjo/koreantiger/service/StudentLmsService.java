@@ -4,6 +4,7 @@ import com.geupjo.koreantiger.common.exception.CustomException;
 import com.geupjo.koreantiger.common.exception.ErrorCode;
 import com.geupjo.koreantiger.dto.StudentRankingDto;
 import com.geupjo.koreantiger.dto.response.RankingBoardResponseDto;
+import com.geupjo.koreantiger.dto.response.StudentCheckInDto;
 import com.geupjo.koreantiger.dto.response.StudentHistoryResponseDto;
 import com.geupjo.koreantiger.dto.response.StudentProfileResponseDto;
 import com.geupjo.koreantiger.entity.Class;
@@ -12,6 +13,7 @@ import com.geupjo.koreantiger.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,19 +34,23 @@ public class StudentLmsService {
         Member student = memberRepository.findById(studentId).orElseThrow(() -> new CustomException(ErrorCode.NO_MATCH_USER_EXCEPTION));
         EducationProfile profile = educationProfileRepository.findByMemberId(student.getId())
                 .orElseThrow(() -> new CustomException(ErrorCode.NO_MATCH_USER_EXCEPTION));
-        EducationHistory lastHistory = educationHistoryRepository.findFirstByMemberIdAndAttendanceIsFalseOrderByCreatedAt(student.getId())
-                .orElseThrow(() -> new CustomException(ErrorCode.NO_MATCH_USER_EXCEPTION));
-        long currentTime = System.currentTimeMillis();
-        long lastConnection = lastHistory.getLearningStop();
-        long duration = currentTime - lastConnection / (1000 * 60 * 60 * 24);
-        int connection = (int) duration;
-        System.out.println(duration);
+        int connection = getContinuousConnection(student);
 
         return new StudentProfileResponseDto(
                 student.getName(),
                 profile.getExperience(),
                 connection,
                 profile.getStudentProfileTitle());
+    }
+
+    //연속접속일자를 구하는 매서드입니다
+    private int getContinuousConnection(Member student) {
+        EducationHistory lastHistory = educationHistoryRepository.findFirstByMemberIdAndAttendanceIsFalseOrderByCreatedAt(student.getId())
+                .orElseThrow(() -> new CustomException(ErrorCode.NO_MATCH_USER_EXCEPTION));
+        long currentTime = System.currentTimeMillis();
+        long lastConnection = lastHistory.getLearningStop();
+        long duration = currentTime - lastConnection / (1000 * 60 * 60 * 24);
+        return (int) duration;
     }
 
     public RankingBoardResponseDto getRankingBoard(Long studentId) {
@@ -99,5 +105,18 @@ public class StudentLmsService {
                 .findByMemberIdAndCreatedAtBetween(currentStudent.getId(), oneYearBeforeToday, today);
 
         return StudentHistoryResponseDto.of(histories, lectures);
+    }
+
+    //출석체크 api 서비스로직
+    public StudentCheckInDto getStudentCheckIn(Member currentStudent) {
+        LocalDate date = LocalDate.now();
+        String dayOfWeek = date.getDayOfWeek().toString();
+        String strDate = date.toString();
+        String dayAndDate = strDate.substring(strDate.length() - 2) +
+                "-" +
+                dayOfWeek.substring(0, dayOfWeek.length() - 3);
+        int connection = getContinuousConnection(currentStudent);
+
+        return new StudentCheckInDto(connection, dayAndDate);
     }
 }
