@@ -21,7 +21,7 @@ public class DetailedLmsController {
     @Operation(summary = "영역별 분석")
     @GetMapping("/area-analysis")
     public ApiResponse<AreaAnalysisDto> areaAnalysis() {
-        AreaAnalysisDto response = DetailedLmsFacade.getAreaAnalysis();
+        AreaAnalysisDto response = detailedLmsFacade.getAreaAnalysis();
         return ApiResponse.success(response);
     }
 }
