@@ -33,7 +33,7 @@ public class StudentLmsController {
     }
 
     @Operation(summary = "학생의 지난 1년간 학습 이력")
-    @GetMapping("/education/histories/")
+    @GetMapping("/education/histories")
     public ApiResponse<StudentHistoryResponseDto> studentEducationHistories() {
         StudentHistoryResponseDto response = studentLmsFacade.getStudentEducationHistories();
         return ApiResponse.success(response);
