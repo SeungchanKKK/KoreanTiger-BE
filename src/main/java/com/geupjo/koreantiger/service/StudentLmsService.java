@@ -13,7 +13,6 @@ import com.geupjo.koreantiger.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -35,7 +34,7 @@ public class StudentLmsService {
         Member student = memberRepository.findById(studentId).orElseThrow(() -> new CustomException(ErrorCode.NO_MATCH_USER_EXCEPTION));
         EducationProfile profile = educationProfileRepository.findByMemberId(student.getId())
                 .orElseThrow(() -> new CustomException(ErrorCode.NO_MATCH_USER_EXCEPTION));
-        int connection = getConnection(student);
+        int connection = getContinuousConnection(student);
 
         return new StudentProfileResponseDto(
                 student.getName(),
@@ -45,14 +44,13 @@ public class StudentLmsService {
     }
 
     //연속접속일자를 구하는 매서드입니다
-    private int getConnection(Member student) {
+    private int getContinuousConnection(Member student) {
         EducationHistory lastHistory = educationHistoryRepository.findFirstByMemberIdAndAttendanceIsFalseOrderByCreatedAt(student.getId())
                 .orElseThrow(() -> new CustomException(ErrorCode.NO_MATCH_USER_EXCEPTION));
         long currentTime = System.currentTimeMillis();
         long lastConnection = lastHistory.getLearningStop();
         long duration = currentTime - lastConnection / (1000 * 60 * 60 * 24);
-        int connection = (int) duration;
-        return connection;
+        return (int) duration;
     }
 
     public RankingBoardResponseDto getRankingBoard(Long studentId) {
@@ -117,7 +115,7 @@ public class StudentLmsService {
         String dayAndDate = strDate.substring(strDate.length() - 2) +
                 "-" +
                 dayOfWeek.substring(0, dayOfWeek.length() - 3);
-        int connection = getConnection(currentStudent);
+        int connection = getContinuouConnection(currentStudent);
 
         return new StudentCheckInDto(connection, dayAndDate);
     }
