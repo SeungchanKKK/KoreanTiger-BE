@@ -32,6 +32,7 @@ public class StudentLmsController {
         return studentLmsFacade.getRankingBoard(studentId);
     }
 
+    @Operation(summary = "학생의 지난 1년간 학습 이력")
     @GetMapping("/education/histories/")
     public ApiResponse<StudentHistoryResponseDto> studentEducationHistories() {
         StudentHistoryResponseDto response = studentLmsFacade.getStudentEducationHistories();
