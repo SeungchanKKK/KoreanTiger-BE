@@ -14,4 +14,5 @@ public record StudentRankingDto(
 
         @Schema(description = "레벨")
         double progress
-) { }
+) {
+}

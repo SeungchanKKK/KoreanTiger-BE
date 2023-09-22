@@ -29,11 +29,11 @@ public class StudentLmsService {
     private static final int ONE_YEAR = 1;
 
     public StudentProfileDto getStudentProfile(Long studentId) {
-        Member student = memberRepository.findById(studentId).orElseThrow(() -> new CustomException(ErrorCode.NOTMATCH_USER_EXCEPTION));
+        Member student = memberRepository.findById(studentId).orElseThrow(() -> new CustomException(ErrorCode.NO_MATCH_USER_EXCEPTION));
         EducationProfile profile = educationProfileRepository.findByMemberId(student.getId())
-                .orElseThrow(() -> new CustomException(ErrorCode.NOTMATCH_USER_EXCEPTION));
+                .orElseThrow(() -> new CustomException(ErrorCode.NO_MATCH_USER_EXCEPTION));
         EducationHistory lastHistory = educationHistoryRepository.findFirstByMemberIdAndAttendanceIsFalseOrderByCreatedAt(student.getId())
-                .orElseThrow(() -> new CustomException(ErrorCode.NOTMATCH_USER_EXCEPTION));
+                .orElseThrow(() -> new CustomException(ErrorCode.NO_MATCH_USER_EXCEPTION));
         long currentTime = System.currentTimeMillis();
         long lastConnection = lastHistory.getLearningStop();
         long duration = currentTime - lastConnection / (1000 * 60 * 60 * 24);
@@ -49,7 +49,7 @@ public class StudentLmsService {
 
     public RankingBoardDto getRankingBoard(Long studentId) {
         //학교랭킹 50위 레벨 및 경험치순으로 정렬
-        Class studentClass = classRepository.findByStudentId(studentId).orElseThrow(() -> new CustomException(ErrorCode.NOTMATCH_USER_EXCEPTION));
+        Class studentClass = classRepository.findByStudentId(studentId).orElseThrow(() -> new CustomException(ErrorCode.NO_MATCH_USER_EXCEPTION));
         List<Class> classes = classRepository.findAllByClassId(studentClass.getClassId());
         List<Long> ClassmemberIds = classes
                 .stream()
