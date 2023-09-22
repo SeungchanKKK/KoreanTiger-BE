@@ -44,7 +44,7 @@ public class StudentLmsController {
         return ApiResponse.success(response);
     }
 
-    @Operation(summary = "지난주와 비교한 이번주 학습 정도")
+    @Operation(summary = "주간 나의 성취도")
     @GetMapping("/achievement")
     public ApiResponse<BiWeeklyAchievementResponseDto> studentWeeklyAchievement() {
         BiWeeklyAchievementResponseDto response = studentLmsFacade.getWeeklyAchievement();
