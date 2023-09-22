@@ -1,10 +1,10 @@
 package com.geupjo.koreantiger.controller.student;
 
 import com.geupjo.koreantiger.common.ApiResponse;
-import com.geupjo.koreantiger.dto.response.RankingBoardDto;
+import com.geupjo.koreantiger.dto.response.RankingBoardResponseDto;
 import com.geupjo.koreantiger.dto.response.StudentHistoryResponseDto;
-import com.geupjo.koreantiger.dto.response.StudentProfileDto;
-import com.geupjo.koreantiger.service.facade.StudentLmsFacade;
+import com.geupjo.koreantiger.dto.response.StudentProfileResponseDto;
+import com.geupjo.koreantiger.facade.StudentLmsFacade;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,14 +24,16 @@ public class StudentLmsController {
 
     @Operation(summary = "학생프로필 api 입니다")
     @GetMapping("/experience")
-    public ApiResponse<StudentProfileDto> studentProfileResponse(@Parameter(description = "학생Id") @RequestParam(value = "studentID", required = false) Long studentId) {
-        return studentLmsFacade.getStudentProfile(1L);
+    public ApiResponse<StudentProfileResponseDto> studentProfileResponse(@Parameter(description = "학생Id") @RequestParam(value = "studentID", required = false) Long studentId) {
+        StudentProfileResponseDto response = studentLmsFacade.getStudentProfile(1L);
+        return ApiResponse.success(response);
     }
 
     @Operation(summary = "랭킹보드 api 입니다")
     @GetMapping("/ranking")
-    public ApiResponse<RankingBoardDto> studentRankingResponse(@Parameter(description = "학생Id") @RequestParam(value = "studentID", required = false) Long studentId) {
-        return studentLmsFacade.getRankingBoard(studentId);
+    public ApiResponse<RankingBoardResponseDto> studentRankingResponse(@Parameter(description = "학생Id") @RequestParam(value = "studentID", required = false) Long studentId) {
+        RankingBoardResponseDto response = studentLmsFacade.getRankingBoard(studentId);
+        return ApiResponse.success(response);
     }
 
     @Operation(summary = "학생의 지난 1년간 학습 이력")

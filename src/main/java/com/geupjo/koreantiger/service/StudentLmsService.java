@@ -2,10 +2,10 @@ package com.geupjo.koreantiger.service;
 
 import com.geupjo.koreantiger.common.exception.CustomException;
 import com.geupjo.koreantiger.common.exception.ErrorCode;
-import com.geupjo.koreantiger.dto.response.RankingBoardDto;
+import com.geupjo.koreantiger.dto.StudentRankingDto;
+import com.geupjo.koreantiger.dto.response.RankingBoardResponseDto;
 import com.geupjo.koreantiger.dto.response.StudentHistoryResponseDto;
-import com.geupjo.koreantiger.dto.response.StudentProfileDto;
-import com.geupjo.koreantiger.dto.response.StudentRankingDto;
+import com.geupjo.koreantiger.dto.response.StudentProfileResponseDto;
 import com.geupjo.koreantiger.entity.Class;
 import com.geupjo.koreantiger.entity.*;
 import com.geupjo.koreantiger.repository.*;
@@ -28,7 +28,7 @@ public class StudentLmsService {
 
     private static final int ONE_YEAR = 1;
 
-    public StudentProfileDto getStudentProfile(Long studentId) {
+    public StudentProfileResponseDto getStudentProfile(Long studentId) {
         Member student = memberRepository.findById(studentId).orElseThrow(() -> new CustomException(ErrorCode.NO_MATCH_USER_EXCEPTION));
         EducationProfile profile = educationProfileRepository.findByMemberId(student.getId())
                 .orElseThrow(() -> new CustomException(ErrorCode.NO_MATCH_USER_EXCEPTION));
@@ -40,14 +40,14 @@ public class StudentLmsService {
         int connection = (int) duration;
         System.out.println(duration);
 
-        return new StudentProfileDto(
+        return new StudentProfileResponseDto(
                 student.getName(),
                 profile.getExperience(),
                 connection,
                 profile.getStudentProfileTitle());
     }
 
-    public RankingBoardDto getRankingBoard(Long studentId) {
+    public RankingBoardResponseDto getRankingBoard(Long studentId) {
         //학교랭킹 50위 레벨 및 경험치순으로 정렬
         Class studentClass = classRepository.findByStudentId(studentId).orElseThrow(() -> new CustomException(ErrorCode.NO_MATCH_USER_EXCEPTION));
         List<Class> classes = classRepository.findAllByClassId(studentClass.getClassId());
@@ -64,7 +64,7 @@ public class StudentLmsService {
         List<EducationProfile> educationProfiles = educationProfileRepository.findTop50ByOrderByLevelDescExperienceDesc();
         ArrayList<StudentRankingDto> totalRankingBoard = new ArrayList<>();
         getRanking50(educationProfiles, totalRankingBoard);
-        return new RankingBoardDto(inSchoolRankingBoard, totalRankingBoard);
+        return new RankingBoardResponseDto(inSchoolRankingBoard, totalRankingBoard);
     }
 
     private void getRanking50(List<EducationProfile> educationProfiles, ArrayList<StudentRankingDto> RankingBoard) {
