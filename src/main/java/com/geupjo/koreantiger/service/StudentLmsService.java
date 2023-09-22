@@ -115,7 +115,7 @@ public class StudentLmsService {
         String dayAndDate = strDate.substring(strDate.length() - 2) +
                 "-" +
                 dayOfWeek.substring(0, dayOfWeek.length() - 3);
-        int connection = getContinuouConnection(currentStudent);
+        int connection = getContinuousConnection(currentStudent);
 
         return new StudentCheckInDto(connection, dayAndDate);
     }
