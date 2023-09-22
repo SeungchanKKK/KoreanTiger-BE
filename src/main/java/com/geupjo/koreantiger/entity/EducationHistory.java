@@ -37,7 +37,7 @@ public class EducationHistory extends BaseEntity {
     long memberId;
 
     public long getTotalLeaningTimeMin() {
-        return this.totalLearningTime / 60;
+        return TimeUtils.EpochMilliToMinutes(this.totalLearningTime);
     }
 
     public int getWeekOfMonth() {

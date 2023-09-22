@@ -34,4 +34,8 @@ public class TimeUtils {
     public static LocalDateTime currentLocalDateTime() {
         return LocalDateTime.now();
     }
+
+    public static long EpochMilliToMinutes(long epochMilli) {
+        return epochMilli / (60 * 1000);
+    }
 }
