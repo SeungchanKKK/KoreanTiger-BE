@@ -10,6 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface EducationHistoryRepository extends JpaRepository<EducationHistory, Long> {
-    List<EducationHistory> findByMemberIdAndCreatedAtBetween(Long id, LocalDateTime oneYearBeforeToday, LocalDateTime today);
-    Optional<EducationHistory> findFirstByMemberIdAndAttendanceIsFalseOrderByCreatedAt(Long id);
+    List<EducationHistory> findByMemberIdAndCreatedAtBetween(Long memberId, LocalDateTime start, LocalDateTime end);
+
+    Optional<EducationHistory> findFirstByMemberIdAndAttendanceIsFalseOrderByCreatedAt(Long memberId);
 }

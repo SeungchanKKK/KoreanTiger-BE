@@ -3,10 +3,9 @@ package com.geupjo.koreantiger.service;
 import com.geupjo.koreantiger.common.exception.CustomException;
 import com.geupjo.koreantiger.common.exception.ErrorCode;
 import com.geupjo.koreantiger.dto.StudentRankingDto;
-import com.geupjo.koreantiger.dto.response.RankingBoardResponseDto;
-import com.geupjo.koreantiger.dto.response.StudentCheckInDto;
-import com.geupjo.koreantiger.dto.response.StudentHistoryResponseDto;
-import com.geupjo.koreantiger.dto.response.StudentProfileResponseDto;
+import com.geupjo.koreantiger.dto.TimeBox;
+import com.geupjo.koreantiger.dto.WeeklyAchievement;
+import com.geupjo.koreantiger.dto.response.*;
 import com.geupjo.koreantiger.entity.Class;
 import com.geupjo.koreantiger.entity.*;
 import com.geupjo.koreantiger.repository.*;
@@ -15,9 +14,10 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -113,10 +113,58 @@ public class StudentLmsService {
         String dayOfWeek = date.getDayOfWeek().toString();
         String strDate = date.toString();
         String dayAndDate = strDate.substring(strDate.length() - 2) +
-                "-" +
-                dayOfWeek.substring(0, dayOfWeek.length() - 3);
+                            "-" +
+                            dayOfWeek.substring(0, dayOfWeek.length() - 3);
         int connection = getContinuousConnection(currentStudent);
 
         return new StudentCheckInDto(connection, dayAndDate);
+    }
+
+    public BiWeeklyAchievementResponseDto getWeeklyAchievement(Member currentStudent, TimeBox timeBox) {
+        List<EducationHistory> lastAndThisWeekHistories = educationHistoryRepository
+                .findByMemberIdAndCreatedAtBetween(currentStudent.getId(), timeBox.lastWeekStart(), timeBox.thisWeekEnd());
+        List<Lecture> lastAndThisWeekLectures = lectureRepository
+                .findByMemberIdAndCreatedAtBetween(currentStudent.getId(), timeBox.lastWeekStart(), timeBox.thisWeekEnd());
+
+        Map<Integer, WeeklyAchievement> weeklyAchievement =
+                convert(lastAndThisWeekHistories, lastAndThisWeekLectures, timeBox);
+
+        return BiWeeklyAchievementResponseDto.of(weeklyAchievement, timeBox);
+    }
+
+    private static Map<Integer, WeeklyAchievement> convert(
+            List<EducationHistory> lastAndThisWeekHistories, List<Lecture> lastAndThisWeekLectures, TimeBox timeBox
+    ) {
+        // 1. partition by same week of month
+
+        Map<Integer, List<EducationHistory>> partitionedHistories = lastAndThisWeekHistories
+                .stream()
+                .filter(Objects::nonNull)
+                .collect(Collectors.groupingBy(EducationHistory::getWeekOfMonth,
+                        Collectors.mapping(educationHistory -> educationHistory, Collectors.toList())));
+
+        Map<Integer, List<Lecture>> partitionedLectures = lastAndThisWeekLectures
+                .stream()
+                .filter(Objects::nonNull)
+                .filter(Lecture::isComplete)
+                .collect(Collectors.groupingBy(Lecture::getWeekOfMonth,
+                        Collectors.mapping(lecture -> lecture, Collectors.toList())));
+
+
+        // 2. convert to WeeklyAchievement partitioned by same week of month
+
+        return Stream.of(timeBox.lastWeekOfMonth(), timeBox.thisWeekOfMonth())
+                .map(key -> {
+                    List<EducationHistory> histories =
+                            Optional.ofNullable(partitionedHistories.get(key))
+                                    .orElse(Collections.emptyList());
+
+                    List<Lecture> lectures =
+                            Optional.ofNullable(partitionedLectures.get(key))
+                                    .orElse(Collections.emptyList());
+
+                    return WeeklyAchievement.of(histories, lectures, key);
+                })
+                .collect(Collectors.toMap(WeeklyAchievement::weekOfMonth, Function.identity()));
     }
 }

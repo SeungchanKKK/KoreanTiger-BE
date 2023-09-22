@@ -39,4 +39,8 @@ public class DetailedAnalysis extends BaseEntity {
     @Max(100)
     @Column(nullable = false)
     private int total;
+
+    @Column(nullable = false)
+    private long memberId;
+
 }
