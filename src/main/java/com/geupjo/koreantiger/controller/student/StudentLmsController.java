@@ -1,6 +1,7 @@
 package com.geupjo.koreantiger.controller.student;
 
 import com.geupjo.koreantiger.common.ApiResponse;
+import com.geupjo.koreantiger.dto.response.BiWeeklyAchievementResponseDto;
 import com.geupjo.koreantiger.dto.response.RankingBoardResponseDto;
 import com.geupjo.koreantiger.dto.response.StudentHistoryResponseDto;
 import com.geupjo.koreantiger.dto.response.StudentProfileResponseDto;
@@ -40,6 +41,13 @@ public class StudentLmsController {
     @GetMapping("/histories")
     public ApiResponse<StudentHistoryResponseDto> studentEducationHistories() {
         StudentHistoryResponseDto response = studentLmsFacade.getStudentEducationHistories();
+        return ApiResponse.success(response);
+    }
+
+    @Operation(summary = "지난주와 비교한 이번주 학습 정도")
+    @GetMapping("/achievement")
+    public ApiResponse<BiWeeklyAchievementResponseDto> studentWeeklyAchievement() {
+        BiWeeklyAchievementResponseDto response = studentLmsFacade.getWeeklyAchievement();
         return ApiResponse.success(response);
     }
 }

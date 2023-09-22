@@ -1,5 +1,7 @@
 package com.geupjo.koreantiger.facade;
 
+import com.geupjo.koreantiger.dto.TimeBox;
+import com.geupjo.koreantiger.dto.response.BiWeeklyAchievementResponseDto;
 import com.geupjo.koreantiger.dto.response.RankingBoardResponseDto;
 import com.geupjo.koreantiger.dto.response.StudentHistoryResponseDto;
 import com.geupjo.koreantiger.dto.response.StudentProfileResponseDto;
@@ -26,5 +28,11 @@ public class StudentLmsFacade {
     public StudentHistoryResponseDto getStudentEducationHistories() {
         Member currentStudent = ContextUtils.loadMockStudent();
         return studentLmsService.getStudentEducationHistories(currentStudent);
+    }
+
+    public BiWeeklyAchievementResponseDto getWeeklyAchievement() {
+        Member currentStudent = ContextUtils.loadMockStudent();
+        TimeBox timeBox = TimeBox.getItem();
+        return studentLmsService.getWeeklyAchievement(currentStudent, timeBox);
     }
 }
