@@ -28,14 +28,14 @@ public record StudentHistoryResponseDto(
         return new StudentHistoryResponseDto(oneYearLearningHistory, meta);
     }
 
-    public record LearningHistory(
+    private record LearningHistory(
             @Schema(description = "일자", example = "2023-08-01")
             LocalDate date,
 
             @Schema(description = "학습시간 등급(NONE(0분) ~ VERY_HIGH(80분 이상))", example = "HIGH")
             LearningTimeGrade learningTimeGrade
     ) {
-        public static LearningHistory of(EducationHistory history) {
+        private static LearningHistory of(EducationHistory history) {
             LocalDate date = history.getCreatedAt().toLocalDate();
             LearningTimeGrade grade = LearningTimeGrade.convert(history.getTotalLeaningTimeMin());
 

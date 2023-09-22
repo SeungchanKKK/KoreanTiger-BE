@@ -1,9 +1,8 @@
-package com.geupjo.koreantiger.service.facade;
+package com.geupjo.koreantiger.facade;
 
-import com.geupjo.koreantiger.common.ApiResponse;
-import com.geupjo.koreantiger.dto.response.RankingBoardDto;
+import com.geupjo.koreantiger.dto.response.RankingBoardResponseDto;
 import com.geupjo.koreantiger.dto.response.StudentHistoryResponseDto;
-import com.geupjo.koreantiger.dto.response.StudentProfileDto;
+import com.geupjo.koreantiger.dto.response.StudentProfileResponseDto;
 import com.geupjo.koreantiger.entity.Member;
 import com.geupjo.koreantiger.service.StudentLmsService;
 import com.geupjo.koreantiger.util.ContextUtils;
@@ -16,14 +15,12 @@ public class StudentLmsFacade {
 
     private final StudentLmsService studentLmsService;
 
-    public ApiResponse<StudentProfileDto> getStudentProfile(Long studentId) {
-        StudentProfileDto studentProfileDto = studentLmsService.getStudentProfile(studentId);
-        return ApiResponse.success(studentProfileDto);
+    public StudentProfileResponseDto getStudentProfile(Long studentId) {
+        return studentLmsService.getStudentProfile(studentId);
     }
 
-    public ApiResponse<RankingBoardDto> getRankingBoard(Long studentId) {
-        RankingBoardDto rankingBoardDto = studentLmsService.getRankingBoard(studentId);
-        return ApiResponse.success(rankingBoardDto);
+    public RankingBoardResponseDto getRankingBoard(Long studentId) {
+        return studentLmsService.getRankingBoard(studentId);
     }
 
     public StudentHistoryResponseDto getStudentEducationHistories() {
