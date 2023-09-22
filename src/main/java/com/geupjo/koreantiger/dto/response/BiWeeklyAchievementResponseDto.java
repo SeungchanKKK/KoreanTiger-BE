@@ -46,23 +46,24 @@ public record BiWeeklyAchievementResponseDto(
     }
 
     private record Meta(
+            @Schema(description = "날짜", example = "2021-10-10")
             LocalDate date,
-            long achievementRate
+            @Schema(description = "성취도", example = "1.5")
+            String achievementRate
     ) {
         private static Meta of(AchievementItem lastWeek, AchievementItem thisWeek) {
             LocalDate date = LocalDate.now();
-            long achievementRate = calculateAchievementRate(lastWeek, thisWeek);
+            String achievementRate = calculateAchievementRate(lastWeek, thisWeek);
             return new Meta(date, achievementRate);
         }
 
-        private static long calculateAchievementRate(AchievementItem lastWeek, AchievementItem thisWeek) {
+        private static String calculateAchievementRate(AchievementItem lastWeek, AchievementItem thisWeek) {
             if (thisWeek.totalLearningTime == 0) {
-                return 0;
+                return String.valueOf(0);
             }
-            if (lastWeek.totalLearningTime <= thisWeek.totalLearningTime) {
-                return 100;
-            }
-            return thisWeek.totalLearningTime() / lastWeek.totalLearningTime() * 100;
+            double rate = (double) thisWeek.totalLearningTime() / (double) lastWeek.totalLearningTime();
+
+            return String.format("%.1f", rate);
         }
     }
 }
