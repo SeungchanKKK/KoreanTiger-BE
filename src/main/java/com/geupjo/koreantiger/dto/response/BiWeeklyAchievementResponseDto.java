@@ -61,7 +61,8 @@ public record BiWeeklyAchievementResponseDto(
             if (thisWeek.totalLearningTime == 0) {
                 return String.valueOf(0);
             }
-            double rate = (double) thisWeek.totalLearningTime() / (double) lastWeek.totalLearningTime();
+
+            double rate = (double) (thisWeek.totalLearningTime() / lastWeek.totalLearningTime());
 
             return String.format("%.1f", rate);
         }
