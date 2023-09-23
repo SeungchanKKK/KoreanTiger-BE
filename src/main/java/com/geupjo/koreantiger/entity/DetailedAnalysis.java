@@ -44,4 +44,5 @@ public class DetailedAnalysis extends BaseEntity {
 
     @Column(nullable = false)
     private long memberId;
+
 }
