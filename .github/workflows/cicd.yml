@@ -30,6 +30,15 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Set up yaml file
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: ./src/main/resources/application.yaml
+        env:
+          spring.datasource.url: ${{ secrets.DB_URL }}
+          spring.datasource.username: ${{ secrets.DB_USERNAME }}
+          spring.datasource.password: ${{ secrets.DB_PASSWORD }}
+
       - name: Run chmod to make gradlew executable
         run: chmod +x ./gradlew
 
