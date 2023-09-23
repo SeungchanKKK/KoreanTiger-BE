@@ -13,4 +13,6 @@ public interface DetailedAnalysisRepository extends JpaRepository<DetailedAnalys
     Optional<DetailedAnalysis> findByMemberId(Long memberId);
 
     List<DetailedAnalysis> findByMemberIdIn(Set<Long> myStudentIds);
+
+    List<DetailedAnalysis> findAllByMemberIdInOrderByTotalDesc(List<Long> memberId);
 }
