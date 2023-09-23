@@ -27,9 +27,6 @@ public class EducationProfile extends BaseEntity {
     private long memberId;
 
     @Column(nullable = false)
-    private long detailedAnalysisId;
-
-    @Column(nullable = false)
     private String lastEducation;
 
     @Column(nullable = false)
