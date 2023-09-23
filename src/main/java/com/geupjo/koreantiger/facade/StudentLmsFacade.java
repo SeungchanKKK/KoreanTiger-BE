@@ -46,6 +46,11 @@ public class StudentLmsFacade {
         return studentLmsService.getBadgeAchievement(currentStudent);
     }
 
+    public LearningBoxResponseDto getStudentLearningBox() {
+        Member currentStudent = getStudent();
+        return studentLmsService.getStudentLearningBox(currentStudent);
+    }
+
     private Member getStudent() {
         return memberService.findById(268L);
     }

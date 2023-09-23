@@ -59,4 +59,11 @@ public class StudentLmsController {
         BadgeAchievedDto response = studentLmsFacade.getBadgeAchievement();
         return ApiResponse.success(response);
     }
+
+    @Operation(summary = "학습박스(최근 강의, 내가 저장한 코드) 조회")
+    @GetMapping("/learning-box")
+    public ApiResponse<LearningBoxResponseDto> studentLearningBox() {
+        LearningBoxResponseDto response = studentLmsFacade.getStudentLearningBox();
+        return ApiResponse.success(response);
+    }
 }

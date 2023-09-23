@@ -10,6 +10,10 @@ import lombok.Getter;
 @Table(schema = "geupjo")
 @Entity
 public class CodeBox extends BaseEntity {
+
+    @Column
+    private String name;
+
     @Column
     private String code;
 

@@ -31,6 +31,7 @@ public class StudentLmsService {
     private final ClassRepository classRepository;
 
     private final BadgeAchievedRepository badgeAchievedRepository;
+    private final CodeBoxRepository codeBoxRepository;
 
     private static final int ONE_YEAR = 1;
 
@@ -45,6 +46,14 @@ public class StudentLmsService {
                 profile.getExperience(),
                 connection,
                 profile.getStudentProfileTitle().getTitleName());
+    }
+
+    public LearningBoxResponseDto getStudentLearningBox(Member currentStudent) {
+        Lecture lecture = lectureRepository.findFirstByMemberIdOrderByLastModifiedAt(currentStudent.getId())
+                .orElse(null);
+        List<CodeBox> codeBox = codeBoxRepository.findAllByMemberId(currentStudent.getId());
+
+        return LearningBoxResponseDto.of(lecture, codeBox);
     }
 
     //연속접속일자를 구하는 매서드입니다
