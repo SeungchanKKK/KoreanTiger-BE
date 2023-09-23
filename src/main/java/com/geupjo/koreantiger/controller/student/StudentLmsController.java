@@ -32,7 +32,7 @@ public class StudentLmsController {
         return ApiResponse.success(response);
     }
 
-    @Operation(summary = "학생의 지난 1년간 학습 이력")
+    @Operation(summary = "학생의 지난 1달간 학습 이력")
     @GetMapping("/histories")
     public ApiResponse<StudentHistoryResponseDto> studentEducationHistories() {
         StudentHistoryResponseDto response = studentLmsFacade.getStudentEducationHistories();
@@ -59,5 +59,4 @@ public class StudentLmsController {
         BadgeAchievedDto response = studentLmsFacade.getBadgeAchievement();
         return ApiResponse.success(response);
     }
-
 }

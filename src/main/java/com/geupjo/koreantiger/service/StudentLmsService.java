@@ -107,12 +107,12 @@ public class StudentLmsService {
 
     public StudentHistoryResponseDto getStudentEducationHistories(Member currentStudent) {
         LocalDateTime today = LocalDateTime.now();
-        LocalDateTime oneYearBeforeToday = today.minusYears(ONE_YEAR);
+        LocalDateTime oneMonthBeforeToday = today.minusMonths(ONE_YEAR);
 
         List<EducationHistory> histories = educationHistoryRepository
-                .findByMemberIdAndCreatedAtBetween(currentStudent.getId(), oneYearBeforeToday, today);
+                .findByMemberIdAndCreatedAtBetween(currentStudent.getId(), oneMonthBeforeToday, today);
         List<Lecture> lectures = lectureRepository
-                .findByMemberIdAndCreatedAtBetween(currentStudent.getId(), oneYearBeforeToday, today);
+                .findByMemberIdAndCreatedAtBetween(currentStudent.getId(), oneMonthBeforeToday, today);
 
         return StudentHistoryResponseDto.of(histories, lectures);
     }
