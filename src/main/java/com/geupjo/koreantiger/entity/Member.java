@@ -2,16 +2,16 @@ package com.geupjo.koreantiger.entity;
 
 import com.geupjo.koreantiger.common.jpa.BaseEntity;
 import com.geupjo.koreantiger.enums.Authority;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@Entity
+@Table(schema = "geupjo")
 @Getter
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 public class Member extends BaseEntity {
@@ -19,6 +19,7 @@ public class Member extends BaseEntity {
     private String name;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Authority authority;
 
     private Member(BaseEntity base, String name, Authority authority) {
