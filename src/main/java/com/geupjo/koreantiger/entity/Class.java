@@ -18,7 +18,7 @@ public class Class {
     private long teacherId;
 
     @Column(nullable = false)
-    private long classId;
+    private long classInfoId;
 
     @Column(nullable = false)
     private long institutionId;
