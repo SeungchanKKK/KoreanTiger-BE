@@ -69,16 +69,7 @@ public class StudentLmsService {
 
     public RankingBoardResponseDto getRankingBoard(Member student) {
         //학교랭킹 50위 레벨 및 경험치순으로 정렬
-        Class studentClass = classRepository.findByStudentId(student.getId())
-                .orElseThrow(() -> new CustomException(ErrorCode.NO_MATCH_USER_EXCEPTION));
-
-        List<Class> classes = classRepository.findAllByClassInfoId(studentClass.getClassInfoId());
-
-        List<Long> classMemberIds = classes
-                .stream()
-                .filter(Objects::nonNull)
-                .map(Class::getStudentId)
-                .toList();
+        List<Long> classMemberIds = getClassMemberIds(student);
 
         List<EducationProfile> inSchoolProfiles = educationProfileRepository.findTop50ByMemberIdInOrderByLevelDescExperienceDesc(classMemberIds);
         ArrayList<StudentRankingDto> inSchoolRankingBoard = new ArrayList<>();
@@ -89,6 +80,19 @@ public class StudentLmsService {
         ArrayList<StudentRankingDto> totalRankingBoard = new ArrayList<>();
         getRanking50(educationProfiles, totalRankingBoard);
         return new RankingBoardResponseDto(inSchoolRankingBoard, totalRankingBoard);
+    }
+
+    public List<Long> getClassMemberIds(Member student) {
+        Class studentClass = classRepository.findByStudentId(student.getId())
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND));
+
+        List<Class> classes = classRepository.findAllByClassInfoId(studentClass.getClassInfoId());
+
+        return classes
+                .stream()
+                .filter(Objects::nonNull)
+                .map(Class::getStudentId)
+                .toList();
     }
 
     private void getRanking50(List<EducationProfile> educationProfiles, ArrayList<StudentRankingDto> RankingBoard) {
