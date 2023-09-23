@@ -54,4 +54,12 @@ public class StudentLmsController {
         BiWeeklyAchievementResponseDto response = studentLmsFacade.getWeeklyAchievement();
         return ApiResponse.success(response);
     }
+
+    @Operation(summary = "획득 뱃지 조회")
+    @GetMapping("/badge-achieved")
+    public ApiResponse<BadgeAchievedDto> badgeAchievement() {
+        BadgeAchievedDto response = studentLmsFacade.getBadgeAchievement();
+        return ApiResponse.success(response);
+    }
+
 }

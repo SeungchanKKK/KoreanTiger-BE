@@ -37,4 +37,9 @@ public class StudentLmsFacade {
         TimeBox timeBox = TimeBox.getItem();
         return studentLmsService.getWeeklyAchievement(currentStudent, timeBox);
     }
+
+    public BadgeAchievedDto getBadgeAchievement() {
+        Member currentStudent = ContextUtils.loadMockStudent();
+        return studentLmsService.getBadgeAchievement(currentStudent);
+    }
 }

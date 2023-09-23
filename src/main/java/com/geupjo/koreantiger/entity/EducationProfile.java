@@ -2,9 +2,7 @@ package com.geupjo.koreantiger.entity;
 
 import com.geupjo.koreantiger.common.jpa.BaseEntity;
 import com.geupjo.koreantiger.enums.StudentProfileTitle;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.Getter;
@@ -33,5 +31,6 @@ public class EducationProfile extends BaseEntity {
     private double progress;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private StudentProfileTitle studentProfileTitle;
 }

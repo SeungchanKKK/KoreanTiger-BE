@@ -2,12 +2,14 @@ package com.geupjo.koreantiger.service;
 
 import com.geupjo.koreantiger.common.exception.CustomException;
 import com.geupjo.koreantiger.common.exception.ErrorCode;
+import com.geupjo.koreantiger.dto.BadgeDto;
 import com.geupjo.koreantiger.dto.StudentRankingDto;
 import com.geupjo.koreantiger.dto.TimeBox;
 import com.geupjo.koreantiger.dto.WeeklyAchievement;
 import com.geupjo.koreantiger.dto.response.*;
 import com.geupjo.koreantiger.entity.Class;
 import com.geupjo.koreantiger.entity.*;
+import com.geupjo.koreantiger.enums.Badge;
 import com.geupjo.koreantiger.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,8 @@ public class StudentLmsService {
     private final EducationHistoryRepository educationHistoryRepository;
     private final LectureRepository lectureRepository;
     private final ClassRepository classRepository;
+
+    private final BadgeAchievedRepository badgeAchievedRepository;
 
     private static final int ONE_YEAR = 1;
 
@@ -166,5 +170,15 @@ public class StudentLmsService {
                     return WeeklyAchievement.of(histories, lectures, key);
                 })
                 .collect(Collectors.toMap(WeeklyAchievement::weekOfMonth, Function.identity()));
+    }
+
+    public BadgeAchievedDto getBadgeAchievement(Member currentStudent) {
+        List<BadgeAchieved> badgeAchieved = badgeAchievedRepository.findAllByMemberId(currentStudent.getId());
+        ArrayList<BadgeDto> badges = new ArrayList<>();
+        for (BadgeAchieved badgeEarned : badgeAchieved) {
+            Badge badge = badgeEarned.getBadge();
+            badges.add(new BadgeDto(badge, badge.getBadgeName(), badge.getDescription(), badgeEarned.getCreatedAt()));
+        }
+        return new BadgeAchievedDto(badges);
     }
 }
