@@ -4,11 +4,13 @@ import com.geupjo.koreantiger.common.jpa.BaseEntity;
 import com.geupjo.koreantiger.enums.StudentProfileTitle;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.Getter;
 
 @Getter
+@Table(schema = "geupjo")
 @Entity
 public class EducationProfile extends BaseEntity {
     @Min(0)

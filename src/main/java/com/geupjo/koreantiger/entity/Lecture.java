@@ -4,16 +4,18 @@ import com.geupjo.koreantiger.common.jpa.BaseEntity;
 import com.geupjo.koreantiger.util.TimeUtils;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jdk.jfr.Description;
 import lombok.Getter;
 
 @Getter
+@Table(schema = "geupjo")
 @Entity
 public class Lecture extends BaseEntity {
 
-    @Description("강의 진행률")
+    @Description("강의 이름")
     @Column
     private String name;
 

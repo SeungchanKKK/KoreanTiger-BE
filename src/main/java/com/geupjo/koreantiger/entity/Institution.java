@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 
 @Getter
+@Table(schema = "geupjo")
 @Entity
 public class Institution {
     @Id

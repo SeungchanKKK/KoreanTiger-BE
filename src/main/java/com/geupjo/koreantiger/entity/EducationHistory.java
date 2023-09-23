@@ -3,14 +3,13 @@ package com.geupjo.koreantiger.entity;
 import com.geupjo.koreantiger.common.jpa.BaseEntity;
 import com.geupjo.koreantiger.enums.LearningTimeGrade;
 import com.geupjo.koreantiger.util.TimeUtils;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
+import jdk.jfr.Description;
 import lombok.Getter;
 
 @Getter
+@Table(schema = "geupjo")
 @Entity
 public class EducationHistory extends BaseEntity {
 
@@ -32,6 +31,10 @@ public class EducationHistory extends BaseEntity {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private LearningTimeGrade learningTimeGrade;
+
+    @Description("날짜 유닉스타임 표기")
+    @Column(nullable = false)
+    private long baseDate;
 
     @Column(nullable = false)
     long memberId;
