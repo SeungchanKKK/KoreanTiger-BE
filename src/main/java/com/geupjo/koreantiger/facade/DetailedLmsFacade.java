@@ -1,10 +1,10 @@
 package com.geupjo.koreantiger.facade;
 
 import com.geupjo.koreantiger.dto.response.AreaAnalysisDto;
-import com.geupjo.koreantiger.dto.response.TotalScoreDto;
+import com.geupjo.koreantiger.dto.response.TotalScoreResponseDto;
 import com.geupjo.koreantiger.entity.Member;
 import com.geupjo.koreantiger.service.DetailedLmsService;
-import com.geupjo.koreantiger.util.ContextUtils;
+import com.geupjo.koreantiger.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,13 +14,15 @@ public class DetailedLmsFacade {
 
     private final DetailedLmsService detailedLmsService;
 
+    private final MemberService memberService;
+
     public AreaAnalysisDto getAreaAnalysis() {
-        Member currentStudent = ContextUtils.loadMockStudent();
+        Member currentStudent = memberService.findById(268L);
         return detailedLmsService.getAreaAnalysis(currentStudent);
     }
 
-    public TotalScoreDto getTotalScore() {
-        Member currentStudent = ContextUtils.loadMockStudent();
+    public TotalScoreResponseDto getTotalScore() {
+        Member currentStudent = memberService.findById(268L);
         return detailedLmsService.getTotalScore(currentStudent);
     }
 }

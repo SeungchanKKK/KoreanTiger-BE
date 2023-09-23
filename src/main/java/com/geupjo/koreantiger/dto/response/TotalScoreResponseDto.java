@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.List;
 
-public record TotalScoreDto(
+public record TotalScoreResponseDto(
         @Schema(description = "해당 학생의 종합점수입니다")
         int totalScore,
 

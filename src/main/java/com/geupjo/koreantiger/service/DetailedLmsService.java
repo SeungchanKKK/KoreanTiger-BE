@@ -2,14 +2,10 @@ package com.geupjo.koreantiger.service;
 
 import com.geupjo.koreantiger.common.exception.CustomException;
 import com.geupjo.koreantiger.common.exception.ErrorCode;
-import com.geupjo.koreantiger.dto.StudentRankingDto;
 import com.geupjo.koreantiger.dto.response.AreaAnalysisDto;
-import com.geupjo.koreantiger.dto.response.TotalScoreDto;
-import com.geupjo.koreantiger.entity.Class;
+import com.geupjo.koreantiger.dto.response.TotalScoreResponseDto;
 import com.geupjo.koreantiger.entity.DetailedAnalysis;
-import com.geupjo.koreantiger.entity.EducationProfile;
 import com.geupjo.koreantiger.entity.Member;
-import com.geupjo.koreantiger.repository.ClassRepository;
 import com.geupjo.koreantiger.repository.DetailedAnalysisRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,7 +23,7 @@ public class DetailedLmsService {
 
     public AreaAnalysisDto getAreaAnalysis(Member currentStudent) {
         DetailedAnalysis detailedAnalysis = detailedAnalysisRepository.findByMemberId(currentStudent.getId())
-                .orElseThrow(() -> new CustomException(ErrorCode.NO_MATCH_USER_EXCEPTION));
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND));
         return new AreaAnalysisDto(detailedAnalysis.getGrammar(),
                 detailedAnalysis.getAssignment(),
                 detailedAnalysis.getAlgorithm(),
@@ -36,9 +32,9 @@ public class DetailedLmsService {
                 detailedAnalysis.getTotal());
     }
 
-    public TotalScoreDto getTotalScore(Member currentStudent) {
+    public TotalScoreResponseDto getTotalScore(Member currentStudent) {
         DetailedAnalysis detailedAnalysis = detailedAnalysisRepository.findByMemberId(currentStudent.getId())
-                .orElseThrow(() -> new CustomException(ErrorCode.NO_MATCH_USER_EXCEPTION));
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND));
 
         List<Long> classMemberIds = studentLmsService.getClassMemberIds(currentStudent);
         List<DetailedAnalysis> inSchoolProfiles = detailedAnalysisRepository.findAllByMemberIdInOrderByTotalDesc(classMemberIds);
@@ -46,7 +42,7 @@ public class DetailedLmsService {
         ArrayList<Integer> middle = new ArrayList<>();
         ArrayList<Integer> low = new ArrayList<>();
         setLevel(inSchoolProfiles, high, middle, low);
-        return new TotalScoreDto(detailedAnalysis.getTotal(), high, middle, low);
+        return new TotalScoreResponseDto(detailedAnalysis.getTotal(), high, middle, low);
     }
 
     private void setLevel(List<DetailedAnalysis> educationProfiles, ArrayList<Integer> high, ArrayList<Integer> middle, ArrayList<Integer> low) {

@@ -75,7 +75,7 @@ public class StudentLmsService {
 
     public List<Long> getClassMemberIds(Member student) {
         Class studentClass = classRepository.findByStudentId(student.getId())
-                .orElseThrow(() -> new CustomException(ErrorCode.NO_MATCH_USER_EXCEPTION));
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND));
 
         List<Class> classes = classRepository.findAllByClassInfoId(studentClass.getClassInfoId());
 
