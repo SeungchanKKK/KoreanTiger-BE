@@ -16,4 +16,9 @@ public class MemberService {
         return memberRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.NO_MATCH_USER_EXCEPTION));
     }
+
+    public Member getTeacher() {
+        return memberRepository.findById(197L)
+                .orElseThrow(() -> new CustomException(ErrorCode.NO_MATCH_USER_EXCEPTION));
+    }
 }

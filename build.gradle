@@ -36,6 +36,9 @@ dependencies {
 
     // swagger
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+
+    // csv
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-csv'
 }
 
 // do not generate plain jar file
