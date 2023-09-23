@@ -35,15 +35,14 @@ spring:
 ---
 
 # prod config
-# prod config
 spring:
   config:
     activate:
       on-profile: prod
   datasource:
-    url: ${{ secrets.DB_URL }}
-    username: ${{ secrets.DB_USERNAME }}
-    password: ${{ secrets.DB_PASSWORD }}
+    url: ${URL}
+    username: ${USERNAME}
+    password: ${PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
