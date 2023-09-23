@@ -7,6 +7,7 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "TeacherLmsController", description = "선생님 LMS 창에 들어가는 기능 api입니다")
 @RequestMapping("/v1/teacherLms")
 @RestController
+@CrossOrigin(origins = "http://https://korean-tiger.vercel.app/student")
 @RequiredArgsConstructor
 public class TeacherLmsController {
     private static final String ACCEPT = "text/csv";
