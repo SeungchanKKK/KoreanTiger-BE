@@ -30,6 +30,23 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Set up environment
+        env:
+          URL: ${{ secrets.DB_URL }}
+          USERNAME: ${{ secrets.DB_USERNAME }}
+          PASSWORD: ${{ secrets.DB_PASSWORD }}
+        run: |
+          echo "Setting up environment..."
+          echo "URL=$URL" >> $GITHUB_ENV
+          echo "USERNAME=$USERNAME" >> $GITHUB_ENV
+          echo "PASSWORD=$PASSWORD" >> $GITHUB_ENV
+
+          - name: Replace variables in application.yaml
+            run: |
+              sed -i "s|\${URL}|$URL|g" ./src/main/resources/application.yaml
+              sed -i "s|\${USERNAME}|$USERNAME|g" ./src/main/resources/application.yaml
+              sed -i "s|\${PASSWORD}|$PASSWORD|g" ./src/main/resources/application.yaml    
+
       - name: Run chmod to make gradlew executable
         run: chmod +x ./gradlew
 
