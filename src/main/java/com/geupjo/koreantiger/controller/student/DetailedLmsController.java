@@ -7,7 +7,6 @@ import com.geupjo.koreantiger.facade.DetailedLmsFacade;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "DetailedLmsController", description = "학생 LMS 창에 들어가는 기능 api입니다")
 @RequestMapping("/v1/DetailedLms")
 @RestController
-@CrossOrigin(origins = "http://https://korean-tiger.vercel.app/student")
 @RequiredArgsConstructor
 public class DetailedLmsController {
 
