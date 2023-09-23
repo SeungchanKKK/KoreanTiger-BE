@@ -1,6 +1,7 @@
 package com.geupjo.koreantiger.controller.hello;
 
 
+import com.geupjo.koreantiger.common.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TigerHelloController {
     @Operation(summary = "Swagger tiger API hello")
     @GetMapping("/tiger")
-    public ResponseEntity<String> hello(@Parameter(description = "이름") @RequestParam(value = "name", required = false) String name) {
-        return ResponseEntity.ok("Hello, " + name + "!");
+    public ApiResponse hello(@Parameter(description = "이름") @RequestParam(value = "name", required = false) String name) {
+        return ApiResponse.success("Hello, " + name + "!");
     }
 }
