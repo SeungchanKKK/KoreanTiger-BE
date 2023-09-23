@@ -2,6 +2,7 @@ package com.geupjo.koreantiger.controller.student;
 
 import com.geupjo.koreantiger.common.ApiResponse;
 import com.geupjo.koreantiger.dto.response.AreaAnalysisDto;
+import com.geupjo.koreantiger.dto.response.TotalScoreDto;
 import com.geupjo.koreantiger.facade.DetailedLmsFacade;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,6 +23,13 @@ public class DetailedLmsController {
     @GetMapping("/area-analysis")
     public ApiResponse<AreaAnalysisDto> areaAnalysis() {
         AreaAnalysisDto response = detailedLmsFacade.getAreaAnalysis();
+        return ApiResponse.success(response);
+    }
+
+    @Operation(summary = "종합 점수")
+    @GetMapping("/total-score")
+    public ApiResponse<TotalScoreDto> totalScore() {
+        TotalScoreDto response = detailedLmsFacade.getTotalScore();
         return ApiResponse.success(response);
     }
 }

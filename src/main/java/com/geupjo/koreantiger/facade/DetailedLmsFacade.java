@@ -1,6 +1,7 @@
 package com.geupjo.koreantiger.facade;
 
 import com.geupjo.koreantiger.dto.response.AreaAnalysisDto;
+import com.geupjo.koreantiger.dto.response.TotalScoreDto;
 import com.geupjo.koreantiger.entity.Member;
 import com.geupjo.koreantiger.service.DetailedLmsService;
 import com.geupjo.koreantiger.util.ContextUtils;
@@ -16,5 +17,10 @@ public class DetailedLmsFacade {
     public AreaAnalysisDto getAreaAnalysis() {
         Member currentStudent = ContextUtils.loadMockStudent();
         return detailedLmsService.getAreaAnalysis(currentStudent);
+    }
+
+    public TotalScoreDto getTotalScore() {
+        Member currentStudent = ContextUtils.loadMockStudent();
+        return detailedLmsService.getTotalScore(currentStudent);
     }
 }
