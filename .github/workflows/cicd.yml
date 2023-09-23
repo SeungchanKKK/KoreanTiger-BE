@@ -41,11 +41,11 @@ jobs:
           echo "USERNAME=$USERNAME" >> $GITHUB_ENV
           echo "PASSWORD=$PASSWORD" >> $GITHUB_ENV
 
-          - name: Replace variables in application.yaml
-            run: |
-              sed -i "s|\${URL}|$URL|g" ./src/main/resources/application.yaml
-              sed -i "s|\${USERNAME}|$USERNAME|g" ./src/main/resources/application.yaml
-              sed -i "s|\${PASSWORD}|$PASSWORD|g" ./src/main/resources/application.yaml    
+      - name: Replace variables in application.yaml
+        run: |
+          sed -i "s|\${URL}|$URL|g" ./src/main/resources/application.yaml
+          sed -i "s|\${USERNAME}|$USERNAME|g" ./src/main/resources/application.yaml
+          sed -i "s|\${PASSWORD}|$PASSWORD|g" ./src/main/resources/application.yaml 
 
       - name: Run chmod to make gradlew executable
         run: chmod +x ./gradlew
